@@ -1,11 +1,11 @@
 let cfIPv4 = []
 let cfIPv4ToScan = []
 const noOfEachRange24 = 30
-const client = new XMLHttpRequest();
-client.open('GET', 'https://raw.githubusercontent.com/vfarid/cf-ip-scanner/main/ipv4.txt');
+const client = 新建 XMLHttpRequest();
+client.已打开('GET', 'https://raw.githubusercontent.com/liwoyuandiane/cf-ip-scanner/hkg/ipv4.txt');
 client.onreadystatechange = function() {
-  cfIPv4 = client.responseText.split("\n").map((cidr) => cidr.trim()).filter((cidr) => isCIDR(cidr));
-  document.getElementById('btn-start').disabled = false;
+  cfIPv4 = client.responseText。分屏("\n")。map((cidr) => cidr.trim())。filter((cidr) => isCIDR(cidr));
+  document.getElementById('btn-start')。disabled = false;
   const tbody = document.getElementById('ip-ranges-body');
   cfIPv4.forEach((cidr) => {
     const row = tbody.insertRow();
@@ -26,15 +26,15 @@ let progressBar = document.getElementById('progress-bar');
 let progress = 0;
 let portNo = 443;
 let protocol = "https";
-let language = localStorage.getItem('lang') || 'fa'
+let 编程语言 = localStorage.getItem('lang') || 'fa'
 
-document.getElementById('max-ip').value = localStorage.getItem('max-ip') || 10;
-document.getElementById('max-latency').value = localStorage.getItem('max-latency') || 600;
-document.getElementById('ip-regex').value = localStorage.getItem('ip-regex');
-document.getElementById('ip-include').value = localStorage.getItem('ip-include');
-document.getElementById('ip-exclude').value = localStorage.getItem('ip-exclude');
-document.getElementById('protocol').value = localStorage.getItem('protocol') || "https";
-setLang(language);
+document.getElementById('max-ip')。value = localStorage.getItem('max-ip') || 10;
+document.getElementById('max-latency')。value = localStorage.getItem('max-latency') || 600;
+document.getElementById('ip-regex')。value = localStorage.getItem('ip-regex');
+document.getElementById('ip-include')。value = localStorage.getItem('ip-include');
+document.getElementById('ip-exclude')。value = localStorage.getItem('ip-exclude');
+document.getElementById('protocol')。value = localStorage.getItem('protocol') || "https";
+setLang(编程语言);
 setProtocol();
 
 function setProtocol() {
@@ -43,31 +43,31 @@ function setProtocol() {
     https: ["443", "8443", "2053", "2083", "2087", "2096"],
   };
 
-  portNo = document.getElementById('port-no').value || localStorage.getItem('port-no');
+  portNo = document.getElementById('port-no')。value || localStorage.getItem('port-no');
   console.log(portNo)
-  document.getElementById('port-no').innerHTML = "";
-  if (document.getElementById('protocol').value == 'http') {
+  document.getElementById('port-no')。innerHTML = "";
+  if (document.getElementById('protocol')。value == 'http') {
     for(let port of ports.http) {
-      document.getElementById('port-no').options.add(new Option(port))
+      document.getElementById('port-no')。选项。添加(新建 Option(port))
     }
-    if (ports.http.indexOf(portNo) < 0 && ports.https.indexOf(portNo) >= 0) {
-      portNo = ports.http[ports.https.indexOf(portNo)];
+    if (ports.http。indexOf(portNo) < 0 && ports.https。indexOf(portNo) >= 0) {
+      portNo = ports.http[ports.https。indexOf(portNo)];
     }
     if (!portNo) {
       portNo = ports.http[0]
     }
   } else {
     for(let port of ports.https) {
-      document.getElementById('port-no').options.add(new Option(port))
+      document.getElementById('port-no')。选项。添加(新建 Option(port))
     }
-    if (ports.https.indexOf(portNo) < 0 && ports.http.indexOf(portNo) >= 0) {
-      portNo = ports.https[ports.http.indexOf(portNo)];
+    if (ports.https。indexOf(portNo) < 0 && ports.http。indexOf(portNo) >= 0) {
+      portNo = ports.https[ports.http。indexOf(portNo)];
     }
     if (!portNo) {
       portNo = ports.https[0]
     }
   }
-  setTimeout(() => {document.getElementById('port-no').value = portNo}, 1);
+  setTimeout(() => {document.getElementById('port-no')。value = portNo}, 1);
 }
 
 function resetDefaults() {
@@ -78,22 +78,22 @@ function resetDefaults() {
   localStorage.removeItem('ip-exclude');
   localStorage.removeItem('port-no');
   localStorage.removeItem('protocol');
-  document.location = document.location;
+  document.位置 = document.位置;
 }
 
 function setLang(lang) {
   if (lang == 'fa') {
-    document.getElementById('body').style.direction = 'rtl';
+    document.getElementById('body')。style。direction = 'rtl';
   } else {
-    document.getElementById('body').style.direction = 'ltr';
+    document.getElementById('body')。style。direction = 'ltr';
   }
   let elements = document.getElementsByClassName('btn-lang');
-  [].forEach.call(elements, (el) => {
-    el.classList.remove('btn-primary')
-    el.classList.add('btn-outline-primary')
+  []。forEach。call(elements, (el) => {
+    el.classList。移除('btn-primary')
+    el.classList。添加('btn-outline-primary')
   })
-  document.getElementById('btn-' + lang).classList.remove('btn-outline-primary')
-  document.getElementById('btn-' + lang).classList.add('btn-primary')
+  document.getElementById('btn-' + lang)。classList。移除('btn-outline-primary')
+  document.getElementById('btn-' + lang)。classList。添加('btn-primary')
   elements = document.getElementsByClassName('lang-field');
   [].forEach.call(elements, (el) => {
     el.style.display = 'none';
