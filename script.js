@@ -1,11 +1,11 @@
 let cfIPv4 = []
 let cfIPv4ToScan = []
 const noOfEachRange24 = 30
-const client = 新建 XMLHttpRequest();
-client.已打开('GET', 'https://raw.githubusercontent.com/liwoyuandiane/cf-ip-scanner/hkg/ipv4.txt');
+const client = new XMLHttpRequest();
+client.open('GET', 'https://raw.githubusercontent.com/liwoyuandiane/cf-ip-scanner/hkg/ipv4.txt');
 client.onreadystatechange = function() {
-  cfIPv4 = client.responseText。分屏("\n")。map((cidr) => cidr.trim())。filter((cidr) => isCIDR(cidr));
-  document.getElementById('btn-start')。disabled = false;
+  cfIPv4 = client.responseText.split("\n").map((cidr) => cidr.trim()).filter((cidr) => isCIDR(cidr));
+  document.getElementById('btn-start').disabled = false;
   const tbody = document.getElementById('ip-ranges-body');
   cfIPv4.forEach((cidr) => {
     const row = tbody.insertRow();
@@ -26,15 +26,15 @@ let progressBar = document.getElementById('progress-bar');
 let progress = 0;
 let portNo = 443;
 let protocol = "https";
-let 编程语言 = localStorage.getItem('lang') || 'fa'
+let language = localStorage.getItem('lang') || 'fa'
 
-document.getElementById('max-ip')。value = localStorage.getItem('max-ip') || 10;
-document.getElementById('max-latency')。value = localStorage.getItem('max-latency') || 600;
-document.getElementById('ip-regex')。value = localStorage.getItem('ip-regex');
-document.getElementById('ip-include')。value = localStorage.getItem('ip-include');
-document.getElementById('ip-exclude')。value = localStorage.getItem('ip-exclude');
-document.getElementById('protocol')。value = localStorage.getItem('protocol') || "https";
-setLang(编程语言);
+document.getElementById('max-ip').value = localStorage.getItem('max-ip') || 10;
+document.getElementById('max-latency').value = localStorage.getItem('max-latency') || 600;
+document.getElementById('ip-regex').value = localStorage.getItem('ip-regex');
+document.getElementById('ip-include').value = localStorage.getItem('ip-include');
+document.getElementById('ip-exclude').value = localStorage.getItem('ip-exclude');
+document.getElementById('protocol').value = localStorage.getItem('protocol') || "https";
+setLang(language);
 setProtocol();
 
 function setProtocol() {
@@ -43,31 +43,31 @@ function setProtocol() {
     https: ["443", "8443", "2053", "2083", "2087", "2096"],
   };
 
-  portNo = document.getElementById('port-no')。value || localStorage.getItem('port-no');
+  portNo = document.getElementById('port-no').value || localStorage.getItem('port-no');
   console.log(portNo)
-  document.getElementById('port-no')。innerHTML = "";
-  if (document.getElementById('protocol')。value == 'http') {
+  document.getElementById('port-no').innerHTML = "";
+  if (document.getElementById('protocol').value == 'http') {
     for(let port of ports.http) {
-      document.getElementById('port-no')。选项。添加(新建 Option(port))
+      document.getElementById('port-no').options.add(new Option(port))
     }
-    if (ports.http。indexOf(portNo) < 0 && ports.https。indexOf(portNo) >= 0) {
-      portNo = ports.http[ports.https。indexOf(portNo)];
+    if (ports.http.indexOf(portNo) < 0 && ports.https.indexOf(portNo) >= 0) {
+      portNo = ports.http[ports.https.indexOf(portNo)];
     }
     if (!portNo) {
       portNo = ports.http[0]
     }
   } else {
     for(let port of ports.https) {
-      document.getElementById('port-no')。选项。添加(新建 Option(port))
+      document.getElementById('port-no').options.add(new Option(port))
     }
-    if (ports.https。indexOf(portNo) < 0 && ports.http。indexOf(portNo) >= 0) {
-      portNo = ports.https[ports.http。indexOf(portNo)];
+    if (ports.https.indexOf(portNo) < 0 && ports.http.indexOf(portNo) >= 0) {
+      portNo = ports.https[ports.http.indexOf(portNo)];
     }
     if (!portNo) {
       portNo = ports.https[0]
     }
   }
-  setTimeout(() => {document.getElementById('port-no')。value = portNo}, 1);
+  setTimeout(() => {document.getElementById('port-no').value = portNo}, 1);
 }
 
 function resetDefaults() {
@@ -78,72 +78,72 @@ function resetDefaults() {
   localStorage.removeItem('ip-exclude');
   localStorage.removeItem('port-no');
   localStorage.removeItem('protocol');
-  document.位置 = document.位置;
+  document.location = document.location;
 }
 
 function setLang(lang) {
   if (lang == 'fa') {
-    document.getElementById('body')。style。direction = 'rtl';
+    document.getElementById('body').style.direction = 'rtl';
   } else {
-    document.getElementById('body')。style。direction = 'ltr';
+    document.getElementById('body').style.direction = 'ltr';
   }
   let elements = document.getElementsByClassName('btn-lang');
-  []。forEach。call(elements, (el) => {
-    el.classList。移除('btn-primary')
-    el.classList。添加('btn-outline-primary')
+  [].forEach.call(elements, (el) => {
+    el.classList.remove('btn-primary')
+    el.classList.add('btn-outline-primary')
   })
-  document.getElementById('btn-' + lang)。classList。移除('btn-outline-primary')
-  document.getElementById('btn-' + lang)。classList。添加('btn-primary')
+  document.getElementById('btn-' + lang).classList.remove('btn-outline-primary')
+  document.getElementById('btn-' + lang).classList.add('btn-primary')
   elements = document.getElementsByClassName('lang-field');
-  []。forEach。call(elements, (el) => {
-    el.style。display = 'none';
+  [].forEach.call(elements, (el) => {
+    el.style.display = 'none';
   })
   elements = document.getElementsByClassName('lang-' + lang);
-  []。forEach。call(elements, (el) => {
-    el.style。display = 'inline';
+  [].forEach.call(elements, (el) => {
+    el.style.display = 'inline';
   })
   localStorage.setItem('lang', lang);
   language = lang;
 }
 
-document.getElementById('btn-en')。onclick = () => {
+document.getElementById('btn-en').onclick = () => {
   setLang('en')
 }
-document.getElementById('btn-fa')。onclick = () => {
+document.getElementById('btn-fa').onclick = () => {
   setLang('fa')
 }
-document.getElementById('btn-cn')。onclick = () => {
+document.getElementById('btn-cn').onclick = () => {
   setLang('cn')
 }
-document.getElementById('protocol')。onchange = () => {
+document.getElementById('protocol').onchange = () => {
   setProtocol()
 }
 
 function cancelScan() {
   immediateStop = true;
-  document.getElementById('btn-start')。disabled = false;
-  document.getElementById('max-ip')。disabled = false;
-  document.getElementById('max-latency')。disabled = false;
-  document.getElementById('ip-regex')。disabled = false;
-  document.getElementById('ip-include')。disabled = false;
-  document.getElementById('ip-exclude')。disabled = false;
-  document.getElementById('port-no')。disabled = false;
-  document.getElementById('protocol')。disabled = false;
-  document.getElementById('btn-cancel')。classList。添加('d-none');
-  document.getElementById('btn-start')。classList。移除('d-none');
-  document.getElementById('btn-reset')。classList。移除('d-none');
+  document.getElementById('btn-start').disabled = false;
+  document.getElementById('max-ip').disabled = false;
+  document.getElementById('max-latency').disabled = false;
+  document.getElementById('ip-regex').disabled = false;
+  document.getElementById('ip-include').disabled = false;
+  document.getElementById('ip-exclude').disabled = false;
+  document.getElementById('port-no').disabled = false;
+  document.getElementById('protocol').disabled = false;
+  document.getElementById('btn-cancel').classList.add('d-none');
+  document.getElementById('btn-start').classList.remove('d-none');
+  document.getElementById('btn-reset').classList.remove('d-none');
 }
 
 let ips = [];
 
 function startScan() {
-  maxIP = ~~document.getElementById('max-ip')。value;
-  maxLatency = ~~document.getElementById('max-latency')。value;
-  ipRegex = document.getElementById('ip-regex')。value;
-  ipInclude = document.getElementById('ip-include')。value;
-  ipExclude = document.getElementById('ip-exclude')。value;
-  portNo = document.getElementById('port-no')。value;
-  protocol = document.getElementById('protocol')。value;
+  maxIP = ~~document.getElementById('max-ip').value;
+  maxLatency = ~~document.getElementById('max-latency').value;
+  ipRegex = document.getElementById('ip-regex').value;
+  ipInclude = document.getElementById('ip-include').value;
+  ipExclude = document.getElementById('ip-exclude').value;
+  portNo = document.getElementById('port-no').value;
+  protocol = document.getElementById('protocol').value;
 
   localStorage.setItem('max-ip', maxIP);
   localStorage.setItem('max-latency', maxLatency);
@@ -156,19 +156,19 @@ function startScan() {
   testNo = 0;
   numberOfWorkingIPs = 0;
   validIPs = [];
-  document.getElementById('result')。innerHTML = '';
-  document.getElementById('btn-start')。disabled = true;
-  document.getElementById('max-ip')。disabled = true;
-  document.getElementById('max-latency')。disabled = true;
-  document.getElementById('ip-regex')。disabled = true;
-  document.getElementById('ip-include')。disabled = true;
-  document.getElementById('ip-exclude')。disabled = true;
-  document.getElementById('port-no')。disabled = true;
-  document.getElementById('protocol')。disabled = true;
-  document.getElementById('test-no')。innerText = '';
-  document.getElementById('btn-cancel')。classList。移除('d-none');
-  document.getElementById('btn-start')。classList。添加('d-none');
-  document.getElementById('btn-reset')。classList。添加('d-none');
+  document.getElementById('result').innerHTML = '';
+  document.getElementById('btn-start').disabled = true;
+  document.getElementById('max-ip').disabled = true;
+  document.getElementById('max-latency').disabled = true;
+  document.getElementById('ip-regex').disabled = true;
+  document.getElementById('ip-include').disabled = true;
+  document.getElementById('ip-exclude').disabled = true;
+  document.getElementById('port-no').disabled = true;
+  document.getElementById('protocol').disabled = true;
+  document.getElementById('test-no').innerText = '';
+  document.getElementById('btn-cancel').classList.remove('d-none');
+  document.getElementById('btn-start').classList.add('d-none');
+  document.getElementById('btn-reset').classList.add('d-none');
 
   setTimeout(() => {
     let ips = processIPs()
@@ -182,7 +182,7 @@ function processIPs() {
   let regex = null;
   let excludeRegex = null;
   if (ipRegex) {
-    regex = 新建 RegExp(ipRegex);
+    regex = new RegExp(ipRegex);
   }
   if (ipInclude) {
     cfIPv4ToScan = makeCIDR(ipInclude);
@@ -190,17 +190,17 @@ function processIPs() {
     cfIPv4ToScan = [...cfIPv4];
   }
   if (ipExclude) {
-    excludeRegex = 新建 RegExp(
-      ipExclude.分屏(',')。map(c => {return '^' + c.replaceAll('.', '\\.')。replaceAll('/', '\\/')})。join('|')
+    excludeRegex = new RegExp(
+      ipExclude.split(',').map(c => {return '^' + c.replaceAll('.', '\\.').replaceAll('/', '\\/')}).join('|')
     );
   }
 
   for (const cidr of cfIPv4ToScan) {
     if (regex && !regex.test(cidr)) {
-      继续;
+      continue;
     }
     if (excludeRegex && excludeRegex.test(cidr)) {
-      继续;
+      continue;
     }
     ips = ips.concat(cidrToRandomIPArray(cidr));
   }
@@ -222,7 +222,7 @@ async function testIPs(ipList) {
     }
 
     const startTime = performance.now();
-    const controller = 新建 AbortController();
+    const controller = new AbortController();
     const multiply = maxLatency <= 500 ? 1.5 : (maxLatency <= 1000 ? 1.2 : 1);
     let timeout = 1.5 * multiply * maxLatency;
     let chNo = 0;
@@ -232,18 +232,18 @@ async function testIPs(ipList) {
       }, timeout);
       if (ch) {
         timeout = 1 * multiply * maxLatency;
-        document.getElementById('test-no')。innerText = `#${testNo}:`;
-        document.getElementById('ip-no')。innerText = ip;
-        document.getElementById('ip-no')。style = `color: green`;
-        document.getElementById('ip-try')。innerText = ch;
-        document.getElementById('ip-latency')。innerText = Math.floor((performance.now() - startTime) / chNo) + 'ms';
+        document.getElementById('test-no').innerText = `#${testNo}:`;
+        document.getElementById('ip-no').innerText = ip;
+        document.getElementById('ip-no').style = `color: green`;
+        document.getElementById('ip-try').innerText = ch;
+        document.getElementById('ip-latency').innerText = Math.floor((performance.now() - startTime) / chNo) + 'ms';
       } else {
         timeout = 1.2 * multiply * maxLatency;
-        document.getElementById('test-no')。innerText = `#${testNo}:`;
-        document.getElementById('ip-no')。innerText = ip;
-        document.getElementById('ip-no')。style = `color: red`;
-        document.getElementById('ip-try')。innerText = '';
-        document.getElementById('ip-latency')。innerText = '';
+        document.getElementById('test-no').innerText = `#${testNo}:`;
+        document.getElementById('ip-no').innerText = ip;
+        document.getElementById('ip-no').style = `color: red`;
+        document.getElementById('ip-try').innerText = '';
+        document.getElementById('ip-latency').innerText = '';
       }
       try {
         const response = await fetch(url, {
@@ -252,7 +252,7 @@ async function testIPs(ipList) {
 
         testResult++;
       } catch (error) {
-        if (error.名字 === "AbortError") {
+        if (error.name === "AbortError") {
           //
         } else {
           testResult++;
@@ -267,7 +267,7 @@ async function testIPs(ipList) {
     if (testResult === 5 && latency <= maxLatency) {
       numberOfWorkingIPs++;
       validIPs.push({ip: ip, latency: latency});
-      const sortedArr = validIPs.排序方式((a, b) => a.latency - b.latency);
+      const sortedArr = validIPs.sort((a, b) => a.latency - b.latency);
       const tableRows = sortedArr.map(obj => `
         <tr>
           <td></td>
@@ -285,52 +285,52 @@ async function testIPs(ipList) {
     }
   }
 
-  document.getElementById('ip-no')。innerText = '';
-  document.getElementById('ip-try')。innerText = '';
-  document.getElementById('ip-latency')。innerText = '';
-  document.getElementById('btn-start')。disabled = false;
-  document.getElementById('max-ip')。disabled = false;
-  document.getElementById('max-latency')。disabled = false;
-  document.getElementById('ip-regex')。disabled = false;
-  document.getElementById('ip-include')。disabled = false;
-  document.getElementById('ip-exclude')。disabled = false;
-  document.getElementById('port-no')。disabled = false;
-  document.getElementById('protocol')。disabled = false;
-  document.getElementById('btn-cancel')。classList。添加('d-none');
-  document.getElementById('btn-start')。classList。移除('d-none');
-  document.getElementById('btn-reset')。classList。移除('d-none');
+  document.getElementById('ip-no').innerText = '';
+  document.getElementById('ip-try').innerText = '';
+  document.getElementById('ip-latency').innerText = '';
+  document.getElementById('btn-start').disabled = false;
+  document.getElementById('max-ip').disabled = false;
+  document.getElementById('max-latency').disabled = false;
+  document.getElementById('ip-regex').disabled = false;
+  document.getElementById('ip-include').disabled = false;
+  document.getElementById('ip-exclude').disabled = false;
+  document.getElementById('port-no').disabled = false;
+  document.getElementById('protocol').disabled = false;
+  document.getElementById('btn-cancel').classList.add('d-none');
+  document.getElementById('btn-start').classList.remove('d-none');
+  document.getElementById('btn-reset').classList.remove('d-none');
 
   if (immediateStop) {
     immediateStop = false;
-    document.getElementById('test-no')。innerHTML = `
+    document.getElementById('test-no').innerHTML = `
       <span class="lang-field lang-fa text-danger fw-bold">لغو شد!</span>
       <span class="lang-field lang-en text-danger fw-bold">Canceled!</span>  
       <span class="lang-field lang-cn text-danger fw-bold">已取消！</span>  
     `;
   } else {
     if (window.self !== window.top) {
-      window.top。postMessage(validIPs.map(el => el.ip)。join('\n'), '*');
+      window.top.postMessage(validIPs.map(el => el.ip).join('\n'), '*');
     }
 
-    document.getElementById('test-no')。innerHTML = `
+    document.getElementById('test-no').innerHTML = `
       <span class="lang-field lang-fa text-success fw-bold">تمام شد.</span>
       <span class="lang-field lang-en text-success fw-bold">Done.</span>  
       <span class="lang-field lang-cn text-success fw-bold">完成</span>  
     `;
   }
-  setLang(编程语言)
+  setLang(language)
 }
 
 function copyToClipboard(ip) {
-  window.navigator。clipboard。writeText(ip)。then(() => {
+  window.navigator.clipboard.writeText(ip).then(() => {
     alert('آی‌پی‌ در کلیپ‌بورد کپی شد.');
-  })。catch(() => {
+  }).catch(() => {
     alert('مشکلی پیش آمده است!');
   });
 }
 
 function copyAllToClipboard(ip) {
-  const txt = validIPs.map(el => el.ip)。join('\n');
+  const txt = validIPs.map(el => el.ip).join('\n');
   copyToClipboard(txt)
 }
 
@@ -339,13 +339,13 @@ function isCIDR(cidr) {
 }
 
 function makeCIDR(includeStr) {
-  let includeList = includeStr.分屏(',')。map((cidr) => cidr.trim());
+  let includeList = includeStr.split(',').map((cidr) => cidr.trim());
   cidrList = includeList.flatMap((cidr) => {
     if (isCIDR(cidr)) {
       return [cidr];
     } else if (cidr) {
-      const regex = 新建 RegExp(
-        '^' + cidr.replaceAll('.', '\\.')。replaceAll('/', '\\/')
+      const regex = new RegExp(
+        '^' + cidr.replaceAll('.', '\\.').replaceAll('/', '\\/')
       );
       return cfIPv4.filter((cidr) => cidr.match(regex));
     } else {
@@ -367,8 +367,8 @@ function generateRandomNumbers(count) {
 }
 
 function splitCIDRTo24Ranges(cidr) {
-  const [baseIP, baseMask] = cidr.分屏('/');
-  const baseStart = baseIP.分屏('.')。reduce((acc, octet) => (acc << 8) | parseInt(octet, 10), 0) >>> 0;
+  const [baseIP, baseMask] = cidr.split('/');
+  const baseStart = baseIP.split('.').reduce((acc, octet) => (acc << 8) | parseInt(octet, 10), 0) >>> 0;
   const baseEnd = (baseStart | (0xffffffff >>> parseInt(baseMask, 10))) >>> 0;
 
   const ranges = [];
@@ -387,7 +387,7 @@ function cidrToRandomIPArray(cidr, count) {
   const ranges = splitCIDRTo24Ranges(cidr);
   const ips = [];
   for (const start of ranges) {
-    const prefix = `${(start >>> 24) & 0xff}。${(start >>> 16) & 0xff}。${(start >>> 8) & 0xff}`;
+    const prefix = `${(start >>> 24) & 0xff}.${(start >>> 16) & 0xff}.${(start >>> 8) & 0xff}`;
     for (const no of generateRandomNumbers(noOfEachRange24)) {
       ips.push(prefix + '.' + no);
     }
@@ -396,31 +396,31 @@ function cidrToRandomIPArray(cidr, count) {
 }
 
 function randomizeElements(arr) {
-  return [...arr]。排序方式(() => {return 0.5 - Math.random()});
+  return [...arr].sort(() => {return 0.5 - Math.random()});
 }
 
 function downloadAsCSV() {
-  const csvString = validIPs.map(el => el.ip)。join('\n');
-  const blob = 新建 Blob([csvString], { 类型: 'text/csv;charset=utf-8;' });
+  const csvString = validIPs.map(el => el.ip).join('\n');
+  const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.setAttribute('href', url);
   link.setAttribute('download', 'ip-list.csv');
-  link.style。display = 'none';
-  document.内容。appendChild(link);
+  link.style.display = 'none';
+  document.body.appendChild(link);
   link.click();
-  document.内容。removeChild(link);
+  document.body.removeChild(link);
 }
 
 function downloadAsJSON() {
   const jsonString = JSON.stringify(validIPs.map(el => el.ip), null, 2);
-  const blob = 新建 Blob([jsonString], { 类型: 'application/json;charset=utf-8;' });
+  const blob = new Blob([jsonString], { type: 'application/json;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.setAttribute('href', url);
   link.setAttribute('download', 'ip-list.json');
-  link.style。display = 'none';
-  document.内容。appendChild(link);
+  link.style.display = 'none';
+  document.body.appendChild(link);
   link.click();
-  document.内容。removeChild(link);
+  document.body.removeChild(link);
 }
